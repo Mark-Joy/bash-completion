@@ -1070,13 +1070,20 @@ _comp_compgen_filedir()
     local -a toks
     local _arg=${1-}
 
+    if [[ $cur == \'* || $cur == \"* ]]; then
+        # Leave out first character
+        cur="${cur:1}"
+    fi
+
     if [[ $_arg == -d ]]; then
         _comp_compgen -v toks -- -d
     else
-        local ret
-        _comp_quote_compgen "${cur-}"
-        local _quoted=$ret
-        _comp_unlocal ret
+        #local ret
+        #_comp_quote_compgen "${cur-}"
+        #local _quoted=$ret
+        #_comp_unlocal ret
+        ## There is no need to use _comp_quote_compgen (new version) or _quote_readline_by_ref (old version)
+        local quoted="${cur-}"
 
         # work around bash-4.2 where compgen -f "''" produces nothing.
         [[ $_quoted == "''" ]] && _quoted=""
